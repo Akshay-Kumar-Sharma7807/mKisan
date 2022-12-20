@@ -1,0 +1,23 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<h2>Create New Listing</h2>
+
+<form class="container-sm" action="{% url 'create' %}" method="post">
+  {% csrf_token %}
+  <div class="form-group">
+    <input type="text" class="form-control mb-3 mt-3" placeholder="Title" name="title">
+    <textarea placeholder="Description" class="mb-3 form-control" name="description"></textarea>
+    <input type="number" placeholder="Starting Bid" class="form-control mb-3" name="starting_bid">
+    <input type="text" placeholder="Image url" class="form-control mb-3" name="img">
+  </div>
+  <select name="category" id="category-select" class="form-control mb-3">
+    <option selected disabled>Select Category</option>
+    <option value="Fashion">Fashion</option>
+    <option value="Toys">Toys</option>
+    <option value="Electronics">Electronics</option>
+    <option value="Home">Home</option>
+  </select>
+  <button class="btn btn-primary" type="submit">Submit</buttonc>
+</form>
+{% endblock %}

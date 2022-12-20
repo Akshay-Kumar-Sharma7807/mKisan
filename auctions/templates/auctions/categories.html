@@ -1,0 +1,28 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<h2>Categories</h2>
+
+<div class="container">
+  <a href="{% url 'category_listing' 'Electronics' %}" class="row mb-3 p-4 border rounded">
+    <div class="col">
+      Electronics
+    </div>
+  </a>
+  <a href="{% url 'category_listing' 'Fashion' %}" class="row mb-3 p-4 border rounded">
+    <div class="col">
+      Fashion
+    </div>
+  </a>
+  <a href="{% url 'category_listing' 'Toys' %}" class="row mb-3 p-4 border rounded">
+    <div class="col">
+      Toys
+    </div>
+  </a>
+  <a href="{% url 'category_listing' 'Home' %}" class="row mb-3 p-4 border rounded">
+    <div class="col">
+      Home
+    </div>
+  </a>
+</div>
+{% endblock %}
