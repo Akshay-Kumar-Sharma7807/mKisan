@@ -3,19 +3,42 @@
 <html lang="en">
 
 <head>
-	<title>Django Tailwind</title>
+	<title>{% block title %}mKisan{% endblock %}</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	{% tailwind_css %}
 </head>
 
-<body class="bg-gray-50 font-serif leading-normal tracking-normal">
-	<div class="container mx-auto">
-		<section class="flex items-center justify-center h-screen">
-			<h1 class="text-5xl title">Django + Tailwind = ❤️</h1>
-		</section>
-	</div>
+<body class="bg-gray-50  leading-normal tracking-normal">
+	<nav class="bg-gray-800 p-2 text-white flex justify-between items-center">
+		<div class="flex items-center gap-4">
+			<img class="w-10 h-10" src="{% static 'images/logo512.png' %}" alt="mKisan logo">
+			<h1 class="text-lg">mKisan</h1>
+		</div>
+		<ul class="flex justify-center gap-2 text-sm text-gray-200">
+			<li><a href="{% url 'index' %}">Home</a></li>
+			<li><a href="{% url 'index' %}">Auctions</a></li>
+			{% if user.is_authenticated %}
+			<li>
+				<a href="{% url 'watchlist' %}" class="nav-link">Watchlist
+				</a>
+			</li>
+			<li>
+				<a href="{% url 'create' %}" class="nav-link">Create Listing</a>
+			</li>
+			<li>
+				<a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+			</li>
+			{% else %}
+			<li><a href="{% url 'login' %}">Login</a></li>
+			<li><a href="{% url 'register' %}">Register</a></li>
+			{% endif %}
+			<li><a href="{% url 'about' %}">About</a></li>
+		</ul>
+	</nav>
+	{% block body %}
+	{% endblock %}
 </body>
 
 </html>

@@ -26,17 +26,20 @@ class NewBidForm(forms.Form):
 
 def index(request):
     # bids = Bid.objects.filter(listing=int(listing_id)).order_by("-bid_price").values()
-    return render(request, "base.html", {
+    return render(request, "index.html", {
         "title": "Active Listings",
         "listings": Listing.objects.filter(closed=False).order_by("-publication_date")
     })
+
+def about(request):
+    return render(request, "about.html")
 
 def listing(request, listing_id):
     listing = Listing.objects.filter(id=int(listing_id)).first()
     bids = Bid.objects.filter(listing=int(listing_id)).order_by("-bid_price").values()
     comments = Comment.objects.filter(listing=int(listing_id)).order_by("comment_date")
 
-    return render(request, "mKisan/listing.html", {
+    return render(request, "listing.html", {
         "listing": listing,
         "current_price": bids[0]["bid_price"] if bids.count() > 0 else listing.starting_bid,
         "current_bid_user": bids[0]["user_id"] if bids.count() > 0 else listing.user_id,
@@ -96,7 +99,7 @@ def watchlist(request):
     watchlists = request.user.watchlist.all()
     for watchlist in watchlists:
         print(watchlist.listing)
-    return render(request, "mKisan/watchlist.html", {
+    return render(request, "watchlist.html", {
         "watchlists": request.user.watchlist.all()
     })
 
@@ -138,7 +141,7 @@ def create_listing(request):
             listing.save()
 
     
-    return render(request, "mKisan/create.html")
+    return render(request, "create.html")
 
 
 @login_required(login_url='/login')
@@ -149,11 +152,11 @@ def close_listing(request, listing_id):
     return HttpResponseRedirect(f"/listings/{listing_id}")
 
 def categories(request):
-    return render(request, "mKisan/categories.html")
+    return render(request, "categories.html")
 
 def category_listing(request, category):
 
-    return render(request, "mKisan/index.html", {
+    return render(request, "index.html", {
         "title": "Listings in " + category,
         "listings": Listing.objects.filter(category=category, closed=False)
     })
@@ -162,20 +165,20 @@ def login_view(request):
     if request.method == "POST":
 
         # Attempt to sign user in
-        username = request.POST["username"]
+        number = request.POST["number"]
         password = request.POST["password"]
-        user = authenticate(request, username=username, password=password)
+        user = authenticate(request, number=number, password=password)
 
         # Check if authentication successful
         if user is not None:
             login(request, user)
             return HttpResponseRedirect(reverse("index"))
         else:
-            return render(request, "mKisan/login.html", {
-                "message": "Invalid username and/or password."
+            return render(request, "login.html", {
+                "message": "Invalid phone number and/or password."
             })
     else:
-        return render(request, "mKisan/login.html")
+        return render(request, "login.html")
 
 
 def logout_view(request):
@@ -186,25 +189,26 @@ def logout_view(request):
 def register(request):
     if request.method == "POST":
         username = request.POST["username"]
+        number = request.POST['number']
         email = request.POST["email"]
 
         # Ensure password matches confirmation
         password = request.POST["password"]
         confirmation = request.POST["confirmation"]
         if password != confirmation:
-            return render(request, "mKisan/register.html", {
+            return render(request, "register.html", {
                 "message": "Passwords must match."
             })
 
         # Attempt to create new user
         try:
-            user = User.objects.create_user(username, email, password)
+            user = User.objects.create_user(username, email, password, number)
             user.save()
         except IntegrityError:
-            return render(request, "mKisan/register.html", {
+            return render(request, "register.html", {
                 "message": "Username already taken."
             })
         login(request, user)
         return HttpResponseRedirect(reverse("index"))
     else:
-        return render(request, "mKisan/register.html")
+        return render(request, "register.html")

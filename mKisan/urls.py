@@ -1,9 +1,10 @@
-from django.urls import path
+from django.urls import path, include
 
 from . import views
 
 urlpatterns = [
     path("", views.index, name="index"),
+    path("about", views.about, name="about"),
     path("listings/<int:listing_id>", views.listing, name="listing"),
     path("comment/add/<int:listing_id>", views.add_comment, name="add_comment"),
     path("login", views.login_view, name="login"),
@@ -16,4 +17,5 @@ urlpatterns = [
     path("categories/<str:category>", views.category_listing, name="category_listing"),
     path("add_watchlist/<int:listing_id>", views.add_watchlist, name="add_watchlist"),
     path("close/<int:listing_id>", views.close_listing, name="close_listing"),
+    path("__reload__/", include("django_browser_reload.urls")),
 ]
