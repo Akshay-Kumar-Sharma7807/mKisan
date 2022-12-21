@@ -4,7 +4,7 @@ Register | mKisan
 {% endblock %}
 {% block body %}
 
-<form action="" method="post" class="p-4 mx-auto grid columns-1 gap-2">
+<form action="{% url 'register' %}" method="post" class="p-4 mx-auto grid columns-1 gap-2">
     {% csrf_token %}
     <h1 class="text-xl block pb-2">Register</h1>
     <input type="text" name="username" placeholder="Your Name" id="username" required>
@@ -12,7 +12,7 @@ Register | mKisan
 
     <input type="text" name="number" placeholder="Your Phone number" id="number" required>
     <input type="password" name="password" id="password" placeholder="Password" required>
-    <input type="password" name="confirmpassword" id="confirmpassword" placeholder="Confirm Password" required>
+    <input type="password" name="confirmation" id="confirmpassword" placeholder="Confirm Password" required>
 
     <button class="px-3 py-2 rounded-lg bg-teal-300">Register</button>
 </form>

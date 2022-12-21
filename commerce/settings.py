@@ -92,6 +92,18 @@ DATABASES = {
 
 AUTH_USER_MODEL = 'mKisan.User'
 
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `django-phone-auth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `django-phone-auth` specific authentication methods, such as login by phone/email/username.
+    'phone_auth.backend.CustomAuthBackend',
+]
+
+INSTALLED_APPS = [
+    'phone_auth',
+]
+
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 

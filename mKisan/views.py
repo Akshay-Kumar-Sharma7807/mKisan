@@ -187,6 +187,7 @@ def logout_view(request):
 
 
 def register(request):
+    print(request)
     if request.method == "POST":
         username = request.POST["username"]
         number = request.POST['number']
@@ -202,8 +203,14 @@ def register(request):
 
         # Attempt to create new user
         try:
-            user = User.objects.create_user(username, email, password, number)
+            user = User.objects.create_user(
+                username,
+                email=email,
+                password=password,
+                number=number
+                )
             user.save()
+            print("user created")
         except IntegrityError:
             return render(request, "register.html", {
                 "message": "Username already taken."
