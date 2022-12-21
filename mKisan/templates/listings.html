@@ -7,11 +7,11 @@
         <i class="bi bi-plus"></i><span>Add New Listing</span>
     </a>
 </div>
-<div class="grid grid-cols-1 md:grid-cols-3 p-4 gap-4">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 p-4 gap-4">
     {% for listing in listings %}
     <a href="{% url 'listing' listing.id %}"
-        class="shadow-md hover:shadow-lg transition ease-in-out duration-100 border-2 border-teal-400 rounded cursor-pointer">
-        <img src="{{listing.img}}" alt="{{listing.title}}">
+        class="shadow-md hover:shadow-lg overflow-hidden transition ease-in-out duration-100 border-2 border-teal-400 rounded-lg cursor-pointer">
+        <img src="{{listing.img}}" class="w-full h-48 object-cover" alt="{{listing.title}}">
 
         <div class="p-2">
             <div class="bg-gray-100 font-semibold uppercase rounded p-1 inline-block text-xs">

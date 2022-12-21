@@ -3,10 +3,60 @@
 {% block body %}
 <div class="p-4 flex-col flex gap-4">
     <h1 class="text-2xl font-bold">{{listing.title}}</h1>
-    <img src="{{listing.img}}" class="w-full h-auto rounded" alt="{{listing.title}} image">
-    <h3 class="text-lg font-semibold">Price: ${{current_price}}</h3>
+    <img src="{{listing.img}}" class="w-full h-auto rounded shadow-lg" alt="{{listing.title}} image">
+    <h3 class="text-xl font-semibold">Price: ${{current_price}}</h3>
 
     <h2 class="text-lg font-semibold">Description</h2>
     <p class="text-sm">{{listing.description}}</p>
+
+
+    {% if user.is_authenticated %}
+    <h2>Bid on this Crop</h2>
+
+    <form action="{% url 'add-bid' listing.id %}" method="post" class="mb-3">
+        {% csrf_token %}
+        <p>{{bids.count}} bid(s) so far.
+            {% if current_bid_user == user.id %}
+            <span>Your bid is the current bid</span>
+            {% endif %}
+        </p>
+        <div class="form-group">
+            <input type="number" name="amount" class="form-control mb-3" placeholder="Amount">
+            <button class="btn btn-primary" type="submit">Place Bid</button>
+        </div>
+    </form>
+    {% endif %}
+
+    <h2>Details</h2>
+    <ul>
+        <li>Listed By: {{listing.user.username}}</li>
+        <li>Created at: {{listing.publication_date}}</li>
+        {% if listing.get_category_display != "" %}
+        <li>Category: {{listing.category}}</li>
+        {% endif %}
+    </ul>
+
+    <h2>Comments</h2>
+    {% if user.is_authenticated %}
+    <form action="{% url 'add_comment' listing.id %}" method="post">
+        {% csrf_token %}
+        <input type="text" class="form-control mb-3" name="text" placeholder="Enter your comment">
+        <button class="btn btn-primary" type="submit">Add comment</button>
+    </form>
+    {% endif %}
+
+    <div class="container mt-3">
+        {% for comment in comments %}
+        <div class="card mb-2">
+            <div class="card-header">
+                <h4 class="h4">
+                    {{comment.user.username}}
+
+                </h4>
+            </div>
+            <div class="card-body">{{comment.comment}}</div>
+        </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}
