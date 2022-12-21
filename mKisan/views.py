@@ -120,6 +120,12 @@ def add_watchlist(request, listing_id):
     return HttpResponseRedirect(f"/listings/{listing_id}")
 
 
+# Listings related routes
+
+def listings(request):
+    return render(request, 'listings.html', {
+        "listings": Listing.objects.filter(closed=False).order_by("-publication_date")
+    })
 
 @login_required(login_url='/login')
 def create_listing(request):
@@ -139,9 +145,17 @@ def create_listing(request):
             print(listing)
             
             listing.save()
-
+        
+        # render success template
+        return render(request, 'success.html', {
+            "message": "Your listing is created successfully"
+        })
+        # redirect user to success route
+        return HttpResponseRedirect("/listings/create/success")
+    # Show create form 
+    return render(request, "create_listing.html")
     
-    return render(request, "create.html")
+
 
 
 @login_required(login_url='/login')

@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="p-6 pt-16 flex flex-col justify-center items-center gap-4">
+    <i class="bi bi-check-circle text-6xl text-teal-500"></i>
+    <p class="text-4xl font-bold">{{message}}</p>
+    <a class="btn bg-teal-600 text-white" href="{% url 'index' %}">Go back to Home</a>
+</div>
+{% endblock %}

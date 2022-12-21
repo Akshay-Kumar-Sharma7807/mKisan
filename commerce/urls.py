@@ -1,6 +1,6 @@
 """commerce URL Configuration
 
-The `urlpatterns` list routes URLs to views. For more information please see:
+The `urlpatterns`  pllist routes URLs to views. For more informationease see:
     https://docs.djangoproject.com/en/3.0/topics/http/urls/
 Examples:
 Function views
@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import include, path
 
 urlpatterns = [
+    path('accounts/', include('phone_auth.urls')),
     path("admin/", admin.site.urls),
     path("", include("mKisan.urls")),
 ]

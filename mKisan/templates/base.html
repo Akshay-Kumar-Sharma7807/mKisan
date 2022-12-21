@@ -7,18 +7,19 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
 	{% tailwind_css %}
 </head>
 
-<body class="bg-gray-50  leading-normal tracking-normal">
+<body class="leading-normal tracking-normal">
 	<nav class="bg-gray-800 p-2 text-white flex justify-between items-center">
 		<div class="flex items-center gap-4">
 			<img class="w-10 h-10" src="{% static 'images/logo512.png' %}" alt="mKisan logo">
 			<h1 class="text-lg">mKisan</h1>
 		</div>
-		<ul class="flex justify-center gap-2 text-sm text-gray-200">
-			<li><a href="{% url 'index' %}">Home</a></li>
-			<li><a href="{% url 'index' %}">Auctions</a></li>
+		<ul class="flex justify-center gap-4 text-md text-gray-300 nav-list">
+			<li><a href="{% url 'index' %}"><i class="bi bi-house"></i><span>Home</span></a></li>
+			<li><a href="{% url 'listings' %}">Auctions</a></li>
 			{% if user.is_authenticated %}
 			<li>
 				<a href="{% url 'watchlist' %}" class="nav-link">Watchlist
@@ -28,11 +29,11 @@
 				<a href="{% url 'create' %}" class="nav-link">Create Listing</a>
 			</li>
 			<li>
-				<a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+				<a class="nav-link" href="{% url 'phone_auth:phone_logout' %}">Log Out</a>
 			</li>
 			{% else %}
-			<li><a href="{% url 'login' %}">Login</a></li>
-			<li><a href="{% url 'register' %}">Register</a></li>
+			<li><a href="{% url 'phone_auth:phone_login' %}">Login</a></li>
+			<li><a href="{% url 'phone_auth:phone_signup' %}">Sign Up</a></li>
 			{% endif %}
 			<li><a href="{% url 'about' %}">About</a></li>
 		</ul>

@@ -13,7 +13,7 @@ class Listing(models.Model):
     description = models.CharField(max_length=512)
     starting_bid = models.IntegerField()
     img = models.CharField(max_length=800, blank=True)
-    CategoryType = models.TextChoices('CategoryType', 'Fashion Toys Electronics Home')
+    CategoryType = models.TextChoices('CategoryType', 'Cassava maize plantains rice sorghum soybeans sweet potatoes wheat yams')
     category = models.CharField(blank=True, choices=CategoryType.choices, max_length=60)
     publication_date = models.DateTimeField(auto_now_add=True)
     closed = models.BooleanField(default=False)

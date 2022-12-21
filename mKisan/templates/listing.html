@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="p-4 flex-col flex gap-4">
+    <h1 class="text-2xl font-bold">{{listing.title}}</h1>
+    <img src="{{listing.img}}" class="w-full h-auto rounded" alt="{{listing.title}} image">
+    <h3 class="text-lg font-semibold">Price: ${{current_price}}</h3>
+
+    <h2 class="text-lg font-semibold">Description</h2>
+    <p class="text-sm">{{listing.description}}</p>
+</div>
+{% endblock %}

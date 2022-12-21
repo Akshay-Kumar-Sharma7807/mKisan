@@ -39,6 +39,7 @@ TAILWIND_APP_NAME = 'mKisan'
 INSTALLED_APPS = [
     'tailwind',
     'mKisan',
+    'phone_auth',
     'django_browser_reload',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -98,10 +99,6 @@ AUTHENTICATION_BACKENDS = [
 
     # `django-phone-auth` specific authentication methods, such as login by phone/email/username.
     'phone_auth.backend.CustomAuthBackend',
-]
-
-INSTALLED_APPS = [
-    'phone_auth',
 ]
 
 # Password validation
