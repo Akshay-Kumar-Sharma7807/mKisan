@@ -11,7 +11,7 @@
 	{% tailwind_css %}
 </head>
 
-<body class="leading-normal tracking-normal">
+<body class="bg-gray-50 leading-normal tracking-normal">
 	<nav class="bg-gray-800 p-2 text-white flex justify-between items-center">
 		<div class="flex items-center gap-4">
 			<img class="w-10 h-10" src="{% static 'images/logo512.png' %}" alt="mKisan logo">
@@ -19,7 +19,7 @@
 		</div>
 		<ul class="flex justify-center gap-4 text-md text-gray-300 nav-list">
 			<li><a href="{% url 'index' %}"><i class="bi bi-house"></i><span>Home</span></a></li>
-			<li><a href="{% url 'listings' %}">Auctions</a></li>
+			<li><a href="{% url 'listings' %}">Listings</a></li>
 			{% if user.is_authenticated %}
 			<li>
 				<a href="{% url 'watchlist' %}" class="nav-link">Watchlist

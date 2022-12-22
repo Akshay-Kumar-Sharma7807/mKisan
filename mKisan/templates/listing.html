@@ -3,19 +3,34 @@
 {% block body %}
 <div class="p-4 flex-col flex gap-4">
     <h1 class="text-2xl font-bold">{{listing.title}}</h1>
-    <img src="{{listing.img}}" class="w-full h-auto rounded shadow-lg" alt="{{listing.title}} image">
-    <h3 class="text-xl font-semibold">Price: ${{current_price}}</h3>
 
-    <h2 class="text-lg font-semibold">Description</h2>
-    <p class="text-sm">{{listing.description}}</p>
+    <div class="grid grid-cols-1 sm:grid-cols-2">
+        <img src="{{listing.img}}" class="w-full h-auto rounded shadow-lg" alt="{{listing.title}} image">
+        <div class="p-4 flex flex-col gap-4">
+            <h3 class="text-xl font-semibold">Price: ${{current_price}}</h3>
+
+            <h2 class="text-xl font-semibold my-2 mt-4">Details</h2>
+            <ul>
+                <li>Listed By: {{listing.user.username}}</li>
+                <li>Created at: {{listing.publication_date}}</li>
+                {% if listing.get_category_display != "" %}
+                <li>Category: {{listing.category}}</li>
+                {% endif %}
+            </ul>
+            <h2 class="text-lg font-semibold">Description</h2>
+            <p class="text-sm">{{listing.description}}</p>
+
+            <h3 class="text-lg font-semibold">{{listing.duration}} days left</h3>
+        </div>
+    </div>
 
 
     {% if user.is_authenticated %}
-    <h2>Bid on this Crop</h2>
+    <h2 class="text-xl font-semibold">Bid on this Crop</h2>
 
     <form action="{% url 'add-bid' listing.id %}" method="post" class="mb-3">
         {% csrf_token %}
-        <p>{{bids.count}} bid(s) so far.
+        <p class="text-xl mb-2">{{bids.count}} bid(s) so far.
             {% if current_bid_user == user.id %}
             <span>Your bid is the current bid</span>
             {% endif %}
@@ -27,34 +42,24 @@
     </form>
     {% endif %}
 
-    <h2>Details</h2>
-    <ul>
-        <li>Listed By: {{listing.user.username}}</li>
-        <li>Created at: {{listing.publication_date}}</li>
-        {% if listing.get_category_display != "" %}
-        <li>Category: {{listing.category}}</li>
-        {% endif %}
-    </ul>
-
-    <h2>Comments</h2>
+    <h2 class="text-xl font-semibold">Comments</h2>
     {% if user.is_authenticated %}
-    <form action="{% url 'add_comment' listing.id %}" method="post">
+    <form action="{% url 'add_comment' listing.id %}" class="flex gap-4 items-center justify-start" method="post">
         {% csrf_token %}
-        <input type="text" class="form-control mb-3" name="text" placeholder="Enter your comment">
+        <input type="text" class="form-control" name="text" placeholder="Enter your comment">
         <button class="btn btn-primary" type="submit">Add comment</button>
     </form>
     {% endif %}
 
-    <div class="container mt-3">
+    <div class="mt-3">
         {% for comment in comments %}
-        <div class="card mb-2">
+        <div class="shadow-md p-4 mb-2 bg-white">
             <div class="card-header">
-                <h4 class="h4">
+                <h4 class="text-xl font-semibold">
                     {{comment.user.username}}
-
                 </h4>
             </div>
-            <div class="card-body">{{comment.comment}}</div>
+            <div class="">{{comment.comment}}</div>
         </div>
         {% endfor %}
     </div>

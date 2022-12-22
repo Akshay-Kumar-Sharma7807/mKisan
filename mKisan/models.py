@@ -4,10 +4,18 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 
 class User(AbstractUser):
+    USER_TYPE=(
+        ("Farmer", "farmer"),
+        ("Buyer", "buyer")
+    )
     number = PhoneNumberField(null=False, blank=False, unique=True)
     pass
 
 class Listing(models.Model):
+    PRICING=(
+        ("Auction", "auction"),
+        ("Buy It Now", "buyitnow")
+    )
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name="listings")
     title = models.CharField(max_length=64)
     description = models.CharField(max_length=512)
@@ -17,6 +25,9 @@ class Listing(models.Model):
     category = models.CharField(blank=True, choices=CategoryType.choices, max_length=60)
     publication_date = models.DateTimeField(auto_now_add=True)
     closed = models.BooleanField(default=False)
+    crop_type = models.CharField(max_length=512, default='Wheat')
+    pricing=models.CharField(max_length=512, choices=PRICING, default="auction")
+    duration=models.IntegerField(default=7)
 
 
 

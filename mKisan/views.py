@@ -17,6 +17,8 @@ class CreateListingForm(forms.Form):
     starting_bid = forms.IntegerField()
     img = forms.CharField(required=False)
     category = forms.CharField(required=False)
+    cropt_type = forms.CharField(required=True)
+    duration = forms.IntegerField()
 
 class NewCommentForm(forms.Form):
     text = forms.CharField()
@@ -34,19 +36,6 @@ def index(request):
 def about(request):
     return render(request, "about.html")
 
-def listing(request, listing_id):
-    listing = Listing.objects.filter(id=int(listing_id)).first()
-    bids = Bid.objects.filter(listing=int(listing_id)).order_by("-bid_price").values()
-    comments = Comment.objects.filter(listing=int(listing_id)).order_by("comment_date")
-
-    return render(request, "listing.html", {
-        "listing": listing,
-        "current_price": bids[0]["bid_price"] if bids.count() > 0 else listing.starting_bid,
-        "current_bid_user": bids[0]["user_id"] if bids.count() > 0 else listing.user_id,
-        "bids": bids,
-        "comments": comments,
-        "in_watchlist": WatchList.objects.filter(listing_id=int(listing_id)).all().count() > 0,
-    })
 
 def add_bid(request, listing_id):
     if request.method == "POST":
@@ -122,10 +111,27 @@ def add_watchlist(request, listing_id):
 
 # Listings related routes
 
+# Show all listings
 def listings(request):
     return render(request, 'listings.html', {
         "listings": Listing.objects.filter(closed=False).order_by("-publication_date")
     })
+
+# show listing with the id listing_id
+def listing(request, listing_id):
+    listing = Listing.objects.filter(id=int(listing_id)).first()
+    bids = Bid.objects.filter(listing=int(listing_id)).order_by("-bid_price").values()
+    comments = Comment.objects.filter(listing=int(listing_id)).order_by("comment_date")
+
+    return render(request, "listing.html", {
+        "listing": listing,
+        "current_price": bids[0]["bid_price"] if bids.count() > 0 else listing.starting_bid,
+        "current_bid_user": bids[0]["user_id"] if bids.count() > 0 else listing.user_id,
+        "bids": bids,
+        "comments": comments,
+        "in_watchlist": WatchList.objects.filter(listing_id=int(listing_id)).all().count() > 0,
+    })
+
 
 @login_required(login_url='/login')
 def create_listing(request):
@@ -140,7 +146,9 @@ def create_listing(request):
                 description=form.cleaned_data["description"],
                 starting_bid=form.cleaned_data["starting_bid"],
                 img=form.cleaned_data["img"],
-                category=form.cleaned_data["category"] 
+                category=form.cleaned_data["category"],
+                crop_type=form.cleaned_data['crop_type'],
+                duration=form.cleaned_data['duration'],
             )
             print(listing)
             
