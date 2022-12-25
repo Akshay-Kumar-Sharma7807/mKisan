@@ -1,10 +1,55 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}
 mKisan | Home
 {% endblock %}
 
 {% block body %}
-<main>
-    <h1 class="text-2xl">Welcome to mKisan!</h1>
+<main class="p-4">
+    <h1 class="text-2xl text-center">Welcome to mKisan!</h1>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2">
+        <div class="p-2">
+            <h2 class="text-xl">My Listings</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 py-2">
+
+                {% for listing in listings %}
+                <a href="{% url 'listing' listing.id %}"
+                    class="shadow-md hover:shadow-lg overflow-hidden transition ease-in-out duration-100 border-2 border-teal-400 rounded-lg cursor-pointer">
+                    <img src="{{listing.img}}" class="w-full h-48 object-cover" alt="{{listing.title}}">
+
+                    <div class="p-2">
+                        <div class="bg-gray-100 font-semibold uppercase rounded p-1 inline-block text-xs">
+                            {{listing.category}}
+                        </div>
+                        <h2 class="text-lg font-bold">{{listing.title}}</h2>
+                        <p class="text-sm text-gray-800 text-ellipsis line-clamp-4">{{listing.description}}</p>
+                        <h3 class="text-md my-2 font-semibold">{{listing.duration}} days left</h3>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="p-2">
+            <h2 class="text-xl">Today's weather</h2>
+            <div id="status" class="text-lg"></div>
+            <div class="grid grid-cols-2">
+                <div id="temp" class="text-6xl text-gray-800 font-bold"></div>
+                <div id="temp-icon" class="text-6xl text-yellow-400"><i class="bi bi-sun"></i></div>
+                <div id="weather"></div>
+                <div id="temp-range"></div>
+                <div id="feels-like"></div>
+                <div id="humidity"></div>
+                <div id="wind"></div>
+                <div id="visibility"></div>
+                <div id="pressure"></div>
+                <div id="sunrise"></div>
+                <div id="sunset"></div>
+            </div>
+        </div>
+
+    </div>
+    <script src="{% static 'js/weather.js' %}"></script>
 </main>
 {% endblock %}

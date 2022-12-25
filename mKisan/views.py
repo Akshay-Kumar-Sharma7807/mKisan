@@ -30,7 +30,7 @@ def index(request):
     # bids = Bid.objects.filter(listing=int(listing_id)).order_by("-bid_price").values()
     return render(request, "index.html", {
         "title": "Active Listings",
-        "listings": Listing.objects.filter(closed=False).order_by("-publication_date")
+        "listings": Listing.objects.filter(user=request.user).order_by("-publication_date")
     })
 
 def about(request):
