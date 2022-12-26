@@ -19,6 +19,8 @@ class CreateListingForm(forms.Form):
     category = forms.CharField(required=False)
     cropt_type = forms.CharField(required=True)
     duration = forms.IntegerField()
+    price=forms.IntegerField()
+    pricing=forms.CharField()
 
 class NewCommentForm(forms.Form):
     text = forms.CharField()
@@ -139,17 +141,38 @@ def create_listing(request):
         form = CreateListingForm(request.POST)
         if form.is_valid():
             print(form.cleaned_data)
-            
-            listing = Listing(
-                user=request.user,
-                title=form.cleaned_data["title"],
-                description=form.cleaned_data["description"],
-                starting_bid=form.cleaned_data["starting_bid"],
-                img=form.cleaned_data["img"],
-                category=form.cleaned_data["category"],
-                crop_type=form.cleaned_data['crop_type'],
-                duration=form.cleaned_data['duration'],
-            )
+            if form.cleaned_data["pricing"] == 'auction':
+                # The listing is auction
+                listing = Listing(
+                    user=request.user,
+                    title=form.cleaned_data['title'],
+                    description=form.cleaned_data["description"],
+                    starting_bid=form.cleaned_data["starting_bid"],
+                    img=form.cleaned_data["img"],
+                    category=form.cleaned_data["category"],
+                    crop_type=form.cleaned_data['crop_type'],
+                    duration=form.cleaned_data['duration'],
+                    pricing=form.cleaned_data["pricing"],
+                )
+
+
+            elif form.cleaned_data["pricing"] == 'buyitnow':
+                # The listing is buyitnow
+                listing = Listing(
+                    user=request.user,
+                    title=form.cleaned_data['title'],
+                    description=form.cleaned_data["description"],
+                    img=form.cleaned_data["img"],
+                    category=form.cleaned_data["category"],
+                    crop_type=form.cleaned_data['crop_type'],
+                    pricing=form.cleaned_data["pricing"],
+                    price=form.cleaned_data["price"],
+                )
+
+            else:
+                # fake data, return error
+                print("error")
+    
             print(listing)
             
             listing.save()

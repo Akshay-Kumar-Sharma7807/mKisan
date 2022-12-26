@@ -28,6 +28,7 @@ class Listing(models.Model):
     crop_type = models.CharField(max_length=512, default='Wheat')
     pricing=models.CharField(max_length=512, choices=PRICING, default="auction")
     duration=models.IntegerField(default=7)
+    price = models.IntegerField()
 
 
 
