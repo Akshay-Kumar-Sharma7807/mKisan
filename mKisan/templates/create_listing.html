@@ -7,7 +7,7 @@
   <form class="p-4" action="{% url 'create' %}" method="post">
     <h2 class="text-2xl font-bold">Create New Listing</h2>
     {% csrf_token %}
-    <div class="grid columsn-1 gap-2">
+    <div class="grid columns-1 gap-2">
       <input type="text" class="rounded mb-3 mt-3" placeholder="Title" name="title">
       <textarea placeholder="Description" class="rounded mb-3" name="description" required></textarea>
       <input type="text" placeholder="Crop Type" class="rounded mb-3" name="crop_type" required>
@@ -28,10 +28,12 @@
     </div>
     <select name="category" id="category-select" class="rounded block mb-3">
       <option selected disabled>Select Category</option>
-      <option value="Fashion">Fashion</option>
-      <option value="Toys">Toys</option>
-      <option value="Electronics">Electronics</option>
-      <option value="Home">Home</option>
+      <option value="Food">Food</option>
+      <option value="Feed">Feed</option>
+      <option value="Fiber">Fiber</option>
+      <option value="Oil">Oil</option>
+      <option value="Ornamental">Ornamental</option>
+      <option value="Indutrial">Indutrial</option>
     </select>
     <button class="bg-teal-800 text-white rounded-lg px-3 py-2" type="submit">Submit</buttonc>
   </form>

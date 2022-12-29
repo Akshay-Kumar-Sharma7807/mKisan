@@ -2,38 +2,38 @@
 
 {% block body %}
 <div class="p-4 flex justify-between">
-    <h1 class="text-2xl font-bold">Active Listings</h1>
-    <a href="{% url 'create' %}" class="btn bg-teal-600 text-white">
+    <h1 class="text-2xl font-bold">Watchlist</h1>
+    <!-- <a href="{% url 'create' %}" class="btn bg-teal-600 text-white">
         <i class="bi bi-plus"></i><span>Add New Listing</span>
-    </a>
+    </a> -->
 </div>
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 p-4 gap-4">
-    {% for listing in listings %}
-    <a href="{% url 'listing' listing.id %}"
+    {% for watchlist in watchlists %}
+    <a href="{% url 'listing' watchlist.listing.id %}"
         class="shadow-md hover:shadow-lg overflow-hidden transition ease-in-out duration-100 border-2 border-teal-400 rounded-lg cursor-pointer">
-        <img src="{{listing.img}}" class="w-full h-48 object-cover" alt="{{listing.title}}">
+        <img src="{{watchlist.listing.img}}" class="w-full h-48 object-cover" alt="{{watchlist.listing.title}}">
 
         <div class="p-2">
             <div class="flex justify-between">
                 <div class="bg-gray-600 text-white font-semibold uppercase rounded p-1 px-2 inline-block text-xs">
-                    {{listing.category}}
+                    {{watchlist.listing.category}}
                 </div>
                 <div class="bg-teal-600 text-white font-semibold rounded-sm px-2 py-1 text-xs uppercase">
-                    {% if listing.pricing == 'auction' %}
+                    {% if watchlist.listing.pricing == 'auction' %}
                     Auction
                     {% else %}
                     Buy it Now
                     {% endif %}
                 </div>
             </div>
-            <h2 class="text-lg font-bold">{{listing.title}}</h2>
-            <p class="text-sm text-gray-800 text-ellipsis line-clamp-4">{{listing.description}}</p>
-            {% if listing.pricing == 'auction' %}
-            <h3 class="text-md my-2 font-semibold">{{listing.duration}} days left</h3>
+            <h2 class="text-lg font-bold">{{watchlist.listing.title}}</h2>
+            <p class="text-sm text-gray-800 text-ellipsis line-clamp-4">{{watchlist.listing.description}}</p>
+            {% if watchlist.listing.pricing == 'auction' %}
+            <h3 class="text-md my-2 font-semibold">{{watchlist.listing.duration}} days left</h3>
             {% endif %}
 
-            {% if listing.pricing == 'buyitnow' %}
-            <h3 class="text-md my-2 font-semibold">Price: ${{listing.price}}</h3>
+            {% if watchlist.listing.pricing == 'buyitnow' %}
+            <h3 class="text-md my-2 font-semibold">Price: ${{watchlist.listing.price}}</h3>
             {% endif %}
         </div>
     </a>

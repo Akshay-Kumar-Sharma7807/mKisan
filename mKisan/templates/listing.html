@@ -4,28 +4,70 @@
 <div class="p-4 flex-col flex gap-4">
     <h1 class="text-2xl font-bold">{{listing.title}}</h1>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2">
+    <div class="grid grid-cols-1 sm:grid-cols-2 mb-2">
         <img src="{{listing.img}}" class="w-full h-auto rounded shadow-lg" alt="{{listing.title}} image">
         <div class="p-4 flex flex-col gap-4">
-            <h3 class="text-xl font-semibold">Price: ${{current_price}}</h3>
 
-            <h2 class="text-xl font-semibold my-2 mt-4">Details</h2>
-            <ul>
-                <li>Listed By: {{listing.user.username}}</li>
-                <li>Created at: {{listing.publication_date}}</li>
-                {% if listing.get_category_display != "" %}
-                <li>Category: {{listing.category}}</li>
+            <h3 class="text-xl font-semibold">
+                {% if listing.pricing == 'auction' %}
+                Current Price: ${{current_price}}
+                {% elif listing.pricing == 'buyitnow' %}
+                Price: ${{listing.price}}
+                {% else %}
+                Cannot fetch price, please contact the dealer.
                 {% endif %}
-            </ul>
-            <h2 class="text-lg font-semibold">Description</h2>
-            <p class="text-sm">{{listing.description}}</p>
+            </h3>
+            <div>
 
-            <h3 class="text-lg font-semibold">{{listing.duration}} days left</h3>
+                <h2 class="text-xl font-semibold my-2 mt-4">Details</h2>
+                <ul>
+                    <li>Listed By: {{listing.user.username}}</li>
+                    <li>Created at: {{listing.publication_date}}</li>
+                    {% if listing.get_category_display != "" %}
+                    <li>Category: {{listing.category}}</li>
+                    {% endif %}
+                </ul>
+            </div>
+            <div>
+                <h2 class="text-lg font-semibold">Description</h2>
+                <p class="text-sm">{{listing.description}}</p>
+            </div>
+
+            {% if listing.pricing == 'auction' %}
+            <h3 class="text-md my-2 font-semibold">{{listing.duration}} days left</h3>
+            {% endif %}
         </div>
     </div>
 
+    {% if listing.closed %}
+    <div class="p-4 bg-green-300 text-gray-800 font-bold text-xl rounded">
+        This listing is closed
+    </div>
+    {% endif %}
+    {% if current_bid_user == user.id and listing.closed %}
+    <div class="p-4 bg-green-300 text-gray-800 font-bold text-xl rounded">
+        You have won this auction!
+    </div>
+    {% endif %}
 
-    {% if user.is_authenticated %}
+    <div class="flex gap-4 flex-wrap">
+
+        {% if user.id == listing.user_id and not listing.closed %}
+        <a class="btn btn-primary" href="{% url 'close_listing' listing.id %}">
+            Close Listing
+        </a>
+        {% endif %}
+        <a class="btn btn-primary" href="{% url 'add_watchlist' listing.id %}">
+            {% if not in_watchlist %}
+            Add to WatchList
+            {% else %}
+            Remove from Watchlist
+            {% endif %}
+        </a>
+    </div>
+
+    <!-- Bidding on the listing -->
+    {% if user.is_authenticated and listing.pricing == 'auction' %}
     <h2 class="text-xl font-semibold">Bid on this Crop</h2>
 
     <form action="{% url 'add-bid' listing.id %}" method="post" class="mb-3">
@@ -44,7 +86,8 @@
 
     <h2 class="text-xl font-semibold">Comments</h2>
     {% if user.is_authenticated %}
-    <form action="{% url 'add_comment' listing.id %}" class="flex gap-4 items-center justify-start" method="post">
+    <form action="{% url 'add_comment' listing.id %}" class="flex flex-wrap gap-4 items-center justify-start"
+        method="post">
         {% csrf_token %}
         <input type="text" class="form-control" name="text" placeholder="Enter your comment">
         <button class="btn btn-primary" type="submit">Add comment</button>

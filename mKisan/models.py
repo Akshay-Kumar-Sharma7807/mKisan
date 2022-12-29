@@ -19,16 +19,15 @@ class Listing(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name="listings")
     title = models.CharField(max_length=64)
     description = models.CharField(max_length=512)
-    starting_bid = models.IntegerField()
+    starting_bid = models.IntegerField(default=0)
     img = models.CharField(max_length=800, blank=True)
-    CategoryType = models.TextChoices('CategoryType', 'Cassava maize plantains rice sorghum soybeans sweet potatoes wheat yams')
-    category = models.CharField(blank=True, choices=CategoryType.choices, max_length=60)
+    category = models.CharField(blank=True, max_length=60)
     publication_date = models.DateTimeField(auto_now_add=True)
     closed = models.BooleanField(default=False)
     crop_type = models.CharField(max_length=512, default='Wheat')
     pricing=models.CharField(max_length=512, choices=PRICING, default="auction")
     duration=models.IntegerField(default=7)
-    price = models.IntegerField()
+    price = models.IntegerField(default=0)
 
 
 

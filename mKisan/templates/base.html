@@ -4,42 +4,197 @@
 
 <head>
 	<title>{% block title %}mKisan{% endblock %}</title>
+	<!-- pwa meta start -->
+
+	<!-- Add to homescreen for Chrome on Android -->
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="application-name" content="mKisan">
+
+
+	<!-- Chrome for Android theme color -->
+	<meta name="theme-color" content="#008080">
+
+	<!-- Add to homescreen for Safari on iOS -->
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-title" content="mKisan">
+	<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+
+
+	<link rel="apple-touch-icon" href="/static/images/icons/icon-72x72.png" sizes="72x72">
+
+	<link rel="apple-touch-icon" href="/static/images/icons/icon-96x96.png" sizes="96x96">
+
+	<link rel="apple-touch-icon" href="/static/images/icons/icon-128x128.png" sizes="128x128">
+
+	<link rel="apple-touch-icon" href="/static/images/icons/icon-144x144.png" sizes="144x144">
+
+	<link rel="apple-touch-icon" href="/static/images/icons/icon-152x152.png" sizes="152x152">
+
+	<link rel="apple-touch-icon" href="/static/images/icons/icon-192x192.png" sizes="192x192">
+
+	<link rel="apple-touch-icon" href="/static/images/icons/icon-384x384.png" sizes="384x384">
+
+	<link rel="apple-touch-icon" href="/static/images/icons/icon-512x512.png" sizes="512x512">
+
+	<link href="/static/images/icons/splash-640x1136.png"
+		media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)"
+		rel="apple-touch-startup-image" />
+
+	<link href="/static/images/icons/splash-750x1334.png"
+		media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)"
+		rel="apple-touch-startup-image" />
+
+	<link href="/static/images/icons/splash-1242x2208.png"
+		media="(device-width: 621px) and (device-height: 1104px) and (-webkit-device-pixel-ratio: 3)"
+		rel="apple-touch-startup-image" />
+
+	<link href="/static/images/icons/splash-1125x2436.png"
+		media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)"
+		rel="apple-touch-startup-image" />
+
+	<link href="/static/images/icons/splash-828x1792.png"
+		media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)"
+		rel="apple-touch-startup-image" />
+
+	<link href="/static/images/icons/splash-1242x2688.png"
+		media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)"
+		rel="apple-touch-startup-image" />
+
+	<link href="/static/images/icons/splash-1536x2048.png"
+		media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)"
+		rel="apple-touch-startup-image" />
+
+	<link href="/static/images/icons/splash-1668x2224.png"
+		media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)"
+		rel="apple-touch-startup-image" />
+
+	<link href="/static/images/icons/splash-1668x2388.png"
+		media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)"
+		rel="apple-touch-startup-image" />
+
+	<link href="/static/images/icons/splash-2048x2732.png"
+		media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)"
+		rel="apple-touch-startup-image" />
+
+
+
+	<!-- Tile for Win8 -->
+	<meta name="msapplication-TileColor" content="#fff">
+
+	<meta name="msapplication-TileImage" content="/static/images/logo512.png">
+
+
+	<link rel="icon" sizes="512x512" href="/static/images/logo512.png">
+
+	<!-- pwa meta end -->
+
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="theme-color" content="#008080">
+	<link rel="apple-touch-icon" href="{% static 'images/apple-icon-180.png' %}">
+	<link rel="manifest" href="{% static 'manifest.json' %}">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
 	{% tailwind_css %}
 </head>
 
 <body class="bg-gray-50 leading-normal tracking-normal font-body">
-	<nav class="bg-gray-800 p-2 text-white flex justify-between items-center">
+	<nav class="bg-gray-800 p-2 text-white flex justify-between items-center align-middle">
+		<div id="nav-menu" class="relative md:hidden">
+			<button id="nav-menu-btn" class="rounded-xl hover:bg-gray-600 px-2 py-1 text-xl"><i
+					class="bi bi-list"></i></button>
+			<!-- <div 
+				class="flex gap-4 hidden flex-col w-40 absolute top-12 left-0 bg-gray-900 p-2 rounded"> -->
+			<ul id="nav-menu-content"
+				class="flex flex-col fixed top-0 right-0 left-0 bottom-0 text-2xl bg-gray-800 z-10 justify-center items-center gap-8 text-md text-gray-300 nav-list hidden md:flex">
+				<button id="close-btn" class="absolute top-2 right-2"><i class="bi bi-x-circle"></i></button>
+				<li><a href="{% url 'index' %}"><i class="bi bi-house"></i><span>Home</span></a></li>
+				<li><a href="{% url 'listings' %}"><i class="bi bi-card-list"></i><span>Listings</span></a></li>
+				{% if user.is_authenticated %}
+				<li>
+					<a href="{% url 'watchlist' %}" class="nav-link"><i
+							class="bi bi-bookmark"></i><span>Watchlist</span>
+					</a>
+				</li>
+				<li>
+					<a href="{% url 'create' %}" class="nav-link"><i class="bi bi-plus"></i><span>Create
+							Listing</span></a>
+				</li>
+				{% else %}
+				<li><a href="{% url 'phone_auth:phone_login' %}">Login</a></li>
+				<li><a href="{% url 'phone_auth:phone_signup' %}">Sign Up</a></li>
+				{% endif %}
+				<li><a href="{% url 'about' %}"><i class="bi bi-info-circle"></i><span>About</span></a></li>
+			</ul>
+			<!-- </div> -->
+		</div>
 		<div class="flex items-center gap-4">
 			<img class="w-10 h-10" src="{% static 'images/logo512.png' %}" alt="mKisan logo">
-			<h1 class="text-lg">mKisan</h1>
+			<h1 class="text-lg hidden md:block">mKisan</h1>
 		</div>
-		<ul class="flex justify-center gap-4 text-md text-gray-300 nav-list">
+		<ul class="flex justify-center items-center gap-4 text-md text-gray-300 nav-list hidden md:flex">
 			<li><a href="{% url 'index' %}"><i class="bi bi-house"></i><span>Home</span></a></li>
-			<li><a href="{% url 'listings' %}">Listings</a></li>
+			<li><a href="{% url 'listings' %}"><i class="bi bi-card-list"></i><span>Listings</span></a></li>
 			{% if user.is_authenticated %}
 			<li>
-				<a href="{% url 'watchlist' %}" class="nav-link">Watchlist
+				<a href="{% url 'watchlist' %}" class="nav-link"><i class="bi bi-bookmark"></i><span>Watchlist</span>
 				</a>
 			</li>
 			<li>
-				<a href="{% url 'create' %}" class="nav-link">Create Listing</a>
-			</li>
-			<li>
-				<a class="nav-link" href="{% url 'phone_auth:phone_logout' %}">Log Out</a>
+				<a href="{% url 'create' %}" class="nav-link"><i class="bi bi-plus"></i><span>Create Listing</span></a>
 			</li>
 			{% else %}
 			<li><a href="{% url 'phone_auth:phone_login' %}">Login</a></li>
 			<li><a href="{% url 'phone_auth:phone_signup' %}">Sign Up</a></li>
 			{% endif %}
-			<li><a href="{% url 'about' %}">About</a></li>
+			<li><a href="{% url 'about' %}"><i class="bi bi-info-circle"></i><span>About</span></a></li>
 		</ul>
+		<div id="user-menu" class="relative">
+			<button id="user-menu-btn" class="rounded-xl hover:bg-gray-600 px-2 py-1 text-xl"><i
+					class="bi bi-person-circle"></i></button>
+			<div id="user-menu-content"
+				class="flex gap-4 hidden flex-col w-40 absolute top-12 right-0 bg-gray-900 p-2 rounded">
+				{% if user.is_authenticated %}
+				<a href="/accounts/profile">
+					<i class="bi bi-person"></i><span class="ml-2">Profile</span>
+				</a>
+				<a href="{% url 'phone_auth:phone_logout' %}">
+					<i class="bi bi-box-arrow-right"></i><span class="ml-2">Logout</span>
+				</a>
+				<a href="/settings">
+					<i class="bi bi-gear"></i><span class="ml-2">Settings</span>
+				</a>
+				{% else %}
+				<a href="/accounts/login">Login
+				</a>
+				<a href="/accounts/">Sign up</a>
+				{% endif %}
+			</div>
+		</div>
 	</nav>
 	{% block body %}
 	{% endblock %}
+
+	<script src="{% static 'js/menu.js' %}"></script>
+	<script type="text/javascript">
+		// Initialize the service worker
+		if ('serviceWorker' in navigator) {
+			navigator.serviceWorker.register('/serviceworker.js', {
+				scope: '/'
+			}).then(function (registration) {
+				// Registration was successful
+
+				console.log('django-pwa: ServiceWorker registration successful with scope: ', registration.scope);
+
+			}, function (err) {
+				// registration failed :(
+
+				console.log('django-pwa: ServiceWorker registration failed: ', err);
+
+			});
+		}
+	</script>
 </body>
 
 </html>

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'tailwind',
     'mKisan',
     'phone_auth',
+    'pwa',
     'django_browser_reload',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -50,6 +51,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "whitenoise.middleware.WhiteNoiseMiddleware",
   "django_browser_reload.middleware.BrowserReloadMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -59,6 +61,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+WHITENOISE_ROOT = 'root_files'
 
 ROOT_URLCONF = 'commerce.urls'
 

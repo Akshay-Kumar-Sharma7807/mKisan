@@ -14,13 +14,13 @@ from .models import User, Listing, Comment, Bid, WatchList
 class CreateListingForm(forms.Form):
     title = forms.CharField()
     description = forms.CharField()
-    starting_bid = forms.IntegerField()
+    starting_bid = forms.IntegerField(required=False)
     img = forms.CharField(required=False)
     category = forms.CharField(required=False)
-    cropt_type = forms.CharField(required=True)
-    duration = forms.IntegerField()
-    price=forms.IntegerField()
-    pricing=forms.CharField()
+    crop_type = forms.CharField(required=True)
+    duration = forms.IntegerField(required=False)
+    price=forms.IntegerField(required=False)
+    pricing=forms.CharField(required=True)
 
 class NewCommentForm(forms.Form):
     text = forms.CharField()
@@ -138,10 +138,13 @@ def listing(request, listing_id):
 @login_required(login_url='/login')
 def create_listing(request):
     if request.method == "POST":
+        print("Post request for creating listing")
         form = CreateListingForm(request.POST)
         if form.is_valid():
+            print("form is valid")
             print(form.cleaned_data)
             if form.cleaned_data["pricing"] == 'auction':
+                print("auction")
                 # The listing is auction
                 listing = Listing(
                     user=request.user,
@@ -157,6 +160,7 @@ def create_listing(request):
 
 
             elif form.cleaned_data["pricing"] == 'buyitnow':
+                print("buy it now")
                 # The listing is buyitnow
                 listing = Listing(
                     user=request.user,
@@ -184,6 +188,7 @@ def create_listing(request):
         # redirect user to success route
         return HttpResponseRedirect("/listings/create/success")
     # Show create form 
+
     return render(request, "create_listing.html")
     
 
