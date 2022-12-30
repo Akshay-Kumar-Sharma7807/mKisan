@@ -1,0 +1,3 @@
+django-phone-auth
+django-pwa
+django-tailwind

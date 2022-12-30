@@ -8,7 +8,7 @@
     <h2 class="text-2xl font-bold">Create New Listing</h2>
     {% csrf_token %}
     <div class="grid columns-1 gap-2">
-      <input type="text" class="rounded mb-3 mt-3" placeholder="Title" name="title">
+      <input type="text" class="rounded  mb-3 mt-3" placeholder="Title" name="title">
       <textarea placeholder="Description" class="rounded mb-3" name="description" required></textarea>
       <input type="text" placeholder="Crop Type" class="rounded mb-3" name="crop_type" required>
       <input type="text" placeholder="Image url" class="rounded mb-3" name="img">
@@ -20,7 +20,7 @@
 
       <input type="number" placeholder="Price" class="rounded mb-3" name="price" id="price">
 
-      <div id="auction-input" class="flex justify-center gap-4">
+      <div id="auction-input" class="flex flex-wrap justify-center gap-4">
         <input type="number" placeholder="Starting Bid ($)" class="rounded mb-3" name="starting_bid" id="starting_bid">
         <input type="number" placeholder="Duration (in days)" class="rounded mb-3" name="duration" id="duration">
       </div>

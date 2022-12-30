@@ -129,7 +129,7 @@
 			</ul>
 			<!-- </div> -->
 		</div>
-		<div class="flex items-center gap-4">
+		<div class="flex items-center gap-2">
 			<img class="w-10 h-10" src="{% static 'images/logo512.png' %}" alt="mKisan logo">
 			<h1 class="text-lg hidden md:block">mKisan</h1>
 		</div>
@@ -156,7 +156,7 @@
 			<div id="user-menu-content"
 				class="flex gap-4 hidden flex-col w-40 absolute top-12 right-0 bg-gray-900 p-2 rounded">
 				{% if user.is_authenticated %}
-				<a href="/accounts/profile">
+				<a href="{% url 'profile' %}">
 					<i class="bi bi-person"></i><span class="ml-2">Profile</span>
 				</a>
 				<a href="{% url 'phone_auth:phone_logout' %}">

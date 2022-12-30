@@ -28,6 +28,8 @@ class NewCommentForm(forms.Form):
 class NewBidForm(forms.Form):
     amount = forms.IntegerField()
 
+
+@login_required(login_url='/accounts/login')
 def index(request):
     # bids = Bid.objects.filter(listing=int(listing_id)).order_by("-bid_price").values()
     return render(request, "index.html", {
@@ -85,7 +87,7 @@ def add_comment(request, listing_id):
     else:
         return HttpResponseRedirect(f"/listings/{listing_id}")
 
-@login_required(login_url='/login')
+@login_required(login_url='/accounts/login')
 def watchlist(request):
     watchlists = request.user.watchlist.all()
     for watchlist in watchlists:
@@ -94,7 +96,7 @@ def watchlist(request):
         "watchlists": request.user.watchlist.all()
     })
 
-@login_required(login_url='/login')
+@login_required(login_url='/accounts/login')
 def add_watchlist(request, listing_id):
     listing = Listing.objects.filter(id=listing_id).first()
     print("skjdfsl", WatchList.objects.filter(listing_id=listing_id).all().count())
@@ -135,7 +137,7 @@ def listing(request, listing_id):
     })
 
 
-@login_required(login_url='/login')
+@login_required(login_url='/accounts/login')
 def create_listing(request):
     if request.method == "POST":
         print("Post request for creating listing")
@@ -194,7 +196,7 @@ def create_listing(request):
 
 
 
-@login_required(login_url='/login')
+@login_required(login_url='/accounts/login')
 def close_listing(request, listing_id):
     listing = Listing.objects.filter(id=listing_id).first()
     listing.closed = True
@@ -210,6 +212,9 @@ def category_listing(request, category):
         "title": "Listings in " + category,
         "listings": Listing.objects.filter(category=category, closed=False)
     })
+
+def profile(request):
+    return render(request, "profile.html")
 
 def login_view(request):
     if request.method == "POST":

@@ -58,6 +58,9 @@ function success(position) {
             sunset.innerHTML = `Sunset: ${sunsetDate.getHours() - 12}:${sunsetDate.getMinutes()}:${sunsetDate.getSeconds()} PM`
 
         })
+        .catch((err) => {
+            status.textContent = "Error!"
+        })
 
     //   mapLink.href = `https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`;
     //   mapLink.textContent = `Latitude: ${latitude} °, Longitude: ${longitude} °`;

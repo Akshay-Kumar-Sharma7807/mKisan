@@ -36,6 +36,10 @@
             {% if listing.pricing == 'auction' %}
             <h3 class="text-md my-2 font-semibold">{{listing.duration}} days left</h3>
             {% endif %}
+
+            {% if listing.pricing == 'buyitnow' %}
+            <button class="btn btn-primary">Buy Now</button>
+            {% endif %}
         </div>
     </div>
 
